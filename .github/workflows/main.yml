@@ -20,13 +20,20 @@ jobs:
           distribution: 'temurin'
           java-version: 17
 
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v2
+        with:
+          api-level: 33             # نسخه Android SDK که می‌خوای نصب بشه
+          build-tools-version: '33.0.2'  # نسخه Build Tools مناسب پروژه‌ات
+          cmake-version: '3.22.1'  # اگر پروژه C++ داره (اختیاری، می‌تونی حذفش کنی)
+
       - name: Make gradlew executable
         run: chmod +x ./gradlew
 
-      - name: Build APK
-        run: ./gradlew assembleDebug
+      - name: Build Debug APK
+        run: ./gradlew assembleDebug --stacktrace
 
-      - name: Upload APK
+      - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: debug-apk
